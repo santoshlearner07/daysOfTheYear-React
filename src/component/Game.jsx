@@ -2,14 +2,18 @@ import React, { useState } from 'react'
 import { Form, Container, Button } from 'react-bootstrap';
 function Game() {
 
-
     const allMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
         "October", "November", "December"]
     const [dayOrMonth, setDayOrMonth] = useState("");
-    const [selectDayMonth,setSelectDayMonth] = useState("")
+    const [selectDayMonth, setSelectDayMonth] = useState("")
     const [day, setDay] = useState(1);
     const [month, setMonth] = useState(1);
+    const [storeDayMonth, setStoreDayMonth] = useState({
+        updateDay: day, updateMonth: month
+    });
     const [player, setPlayer] = useState(1);
+
+    var tempMonth = 0;
 
     const handleDayMonthChange = (e) => {
         setDayOrMonth(e.target.value);
@@ -25,16 +29,29 @@ function Game() {
 
     const handleDayMonthSubmit = (event) => {
         event.preventDefault();
+        if (storeDayMonth.updateDay < day) {
+            console.log("31 day", day, "--storeDayMonth.updateDay", storeDayMonth.updateDay)
+            setDay(day);
+        } else {
+            console.log(" 34 day", day, "--storeDayMonth.updateDay", storeDayMonth.updateDay)
+        }
+        if (tempMonth < month) {
+            tempMonth = month;
+            console.log("37 month", month, "--tempMonth", tempMonth)
+            setMonth(month);
+            
+        } else {
+            console.log("40 month", month, "--tempMonth", tempMonth)
+        }
         setSelectDayMonth(dayOrMonth);
-        setDay(day);
-        console.log(dayOrMonth)
+        console.log(storeDayMonth.updateDay);
     }
 
 
     return (
         <Container>
             <h1>Temprory Setup</h1>
-            Day-{day}----Month-{month}----Player-{player}
+            Day-{storeDayMonth.updateDay}----Month-{tempMonth}----Player-{player}
             <h3> You selected {day} of {allMonth[month - 1]} </h3>
 
             <Form onSubmit={handleDayMonthSubmit} >
@@ -63,6 +80,7 @@ function Game() {
                             onChange={handleDayChange}
                         />
                     </Form.Group>
+                    <Button type='submit'>Click</Button>
                 </Form>
                 : ""}
 
@@ -77,6 +95,7 @@ function Game() {
                             onChange={handleMonthChange}
                         />
                     </Form.Group>
+                    <Button type='submit'>Click</Button>
                 </Form>
                 : ""}
 
